@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>directive</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body ng-app="app">
+<div class="container" ng-controller="Appctrl">
+    <button class="btn btn-block" enter>More</button>
+    <button class="btn btn-block" delete="deleteData()">Delete</button>
+    <hr>
+</div>
+<div class="container">
+    <food class="btn btn-info btn-block" apple orange pear>all food</food>
+    <food class="btn btn-info btn-block" apple orange>all food</food>
+</div>
+</body>
+<script src="angular-1.5.5/angular/angular.js"></script>
+<script>
+    var app = angular.module('app', [])
+        .controller('Appctrl', function ($scope) {
+            $scope.loadMore = function () {
+                console.log("Loading more data...");
+            };
+            $scope.deleteData = function () {
+                console.log("delete data...");
+            };
+
+        });
+    app.directive('enter', function () {
+//       restrict默认为A，不写可直接return link函数
+        return function (scope, element, attrs) {
+            element.bind('mouseover', function () {
+//                scope.loadMore();
+                scope.$apply("loadMore()");
+            });
+        }
+    });
+    app.directive('delete', function () {
+//       restrict默认为A，不写可直接return link函数
+        return function (scope, element, attrs) {
+            element.bind('mouseover', function () {
+//                这种调用更灵活，只需要更改delete属性调用的方法
+                scope.$apply(attrs.delete);
+            });
+        }
+    });
+    app.directive('food', function () {
+        return {
+            restrict:"E",
+            scope:{},
+            controller:function($scope){
+                $scope.food=[];
+                this.addApple=function(){
+                    $scope.food.push('apple');
+                };
+                this.addOrange=function(){
+                    $scope.food.push('orange');
+                };
+                this.addPear=function(){
+                    $scope.food.push('pear');
+                };
+            },
+            link:function(scope,element,attr){
+                element.bind('click',function(){
+                    console.log(scope.food)
+                });
+            }
+        }
+    });
+    app.directive('apple', function () {
+        return {
+            //指定加载的其它指令，此时link中第4个参数会指向food指定中的controller
+            require:'food',
+            link:function(scope,element,attr,foodCtrl){
+                foodCtrl.addApple();
+            }
+        }
+    });
+    app.directive('orange', function () {
+        return {
+            require:'food',
+            link:function(scope,element,attr,foodCtrl){
+                foodCtrl.addOrange();
+            }
+        }
+    });
+    app.directive('pear', function () {
+        return {
+            require:'food',
+            link:function(scope,element,attr,foodCtrl){
+                foodCtrl.addPear();
+            }
+        }
+    });
+
+</script>
+</html>

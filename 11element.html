@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>element</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body ng-app="app">
+<div class="container">
+    <div class="btn btn-block" enter leave>click me</div>
+    <hr>
+    <demo></demo>
+</div>
+</body>
+<script src="angular-1.5.5/angular/angular.js"></script>
+<script>
+    var app = angular.module('app', []);
+    app.directive('enter', function () {
+        return function (scope, element, attrs) {
+//            element的proto上继承了jq的所有方法
+            element.bind('mouseenter', function () {
+                console.log(element);
+                console.log('I am coming!');
+                element.addClass('bg-primary');
+            });
+        }
+    });
+    app.directive('leave', function () {
+        return function (scope, element, attrs) {
+            element.bind('mouseleave', function () {
+                console.log('I am outing!');
+                element.removeClass('bg-primary');
+            });
+        }
+    });
+    app.directive('demo', function () {
+        return {
+            restrict: "E",
+//            replace:true,
+            template: '<div><div><input class="input" ng-model="text"/></div><p>{{text}}</p></div>',
+            link: function (scope, ele) {
+                scope.$watch('text', function (newVal, oldVal) {
+                    if (newVal==='error') {
+                        ele.find('p').addClass('bg-danger');
+                    }
+                });
+            }
+        }
+    });
+</script>
+</html>

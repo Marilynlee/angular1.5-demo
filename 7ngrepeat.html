@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>from</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body ng-app="app">
+<div class="container" ng-controller="Addadress">
+    <div style="padding: 10px;font-weight: bold;">地址管理</div>
+    <ul class="ui-list ui-list-link ui-list-text ui-list-active">
+        <li ng-repeat="item in list track by $index" class="ui-border-t">
+            <h4 ng-bind="$index+':'+ item.address"></h4>
+            <p ng-if="$first">我是第一个</p>
+            <p ng-if="$last">我是最后一个</p>
+        </li>
+    </ul>
+</div>
+</body>
+<script src="angular-1.5.5/angular/angular.js"></script>
+<script>
+    //angular ng-repeat指令
+    angular.module('app', [])
+        .controller('Addadress', function ($scope) {
+            $scope.list = [
+                {
+                    id: 1,
+                    address: '陕西西安'
+                },
+                {
+                    id: 2,
+                    address: '浙江杭州'
+                },
+                {
+                    id: 3,
+                    address: '湖北武汉'
+                },
+                {
+                    id: 4,
+                    address: '安徽合肥'
+                }
+            ];
+        })
+</script>
+</html>

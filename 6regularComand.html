@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>from</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body ng-app="app">
+<div class="container" ng-controller="form">
+
+    <form role="form" name="info" ng-submit="confirm(user)">
+        <fieldset style="border:1px solid #ddd;padding: 20px">
+            <legend style="border-bottom: 0;">基本信息</legend>
+            <img alt="photo"
+                 ng-src="{{user.icon}}"
+                 ng-if="user.showPhoto"
+                 ng-class="{'img-circle':user.showicon}"/>
+
+            <div class="form-group">
+                <label for="user">User</label>
+                <input type="text" name="user" id="user" class="form-control" placeholder="User Name"
+                       ng-model="user.name" required/>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password</label>
+                <input type="password" name="pwd" id="pwd" class="form-control" placeholder="Password"
+                       ng-model="user.pwd" required/>
+            </div>
+            <div class="form-group">
+                <label>job</label>
+                <select class="form-control" ng-model="user.job" name="work" ng-disabled="user.job!=0">
+                    <option value="0">Please Choose your job</option>
+                    <option value="1" ng-selected="user.job==1">Teacher</option>
+                    <option value="2" ng-selected="user.job==2">CEO</option>
+                    <option value="3" ng-selected="user.job==3">farmer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="h4">sex</div>
+                <input id="female" name="sex" type="radio" ng-model="user.sex" ng-checked="user.sex==1" value="1"/>
+                <label for="female">female</label>
+                <input id="male" name="sex" type="radio" ng-model="user.sex" ng-checked="user.sex==0" value="0"/>
+                <label for="male">male</label>
+            </div>
+        </fieldset>
+        <fieldset style="border:1px solid #ddd;padding: 20px">
+            <legend style="border-bottom: 0;">hobby</legend>
+            <div class="form-group">
+                <input ng-checked="isChecked(1)" type="checkbox" name="hobby" id="lan" value="1"/>
+                <label for="lan">basketball</label>
+                <input ng-checked="isChecked(2)" type="checkbox" name="hobby" id="zu" value="2"/>
+                <label for="zu">football</label>
+                <input ng-checked="isChecked(3)" type="checkbox" name="hobby" id="pai" value="3"/>
+                <label for="pai">volleyball</label>
+            </div>
+        </fieldset>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-info" ng-disabled="info.$invalid">submit</button>
+            <button class="btn btn-info">cancel</button>
+        </div>
+    </form>
+
+</div>
+</body>
+<script src="angular-1.5.5/angular/angular.js"></script>
+<script>
+    //angular常用的指令
+    //    ng-bind == {{}}  ng-model  ng-show/hide ng-if
+    //    ng-checked  ng-src  ng-href  ng-class  ng-selected  ng-submit
+    angular.module('app', [])
+            .controller('form', function ($scope) {
+                $scope.user = {
+                    name: '',
+                    pwd: '',
+                    job: '2',
+                    sex: '0',
+                    hobby: [1, 3],
+                    icon: 'img/15.jpg',
+                    showicon: true,
+                    // 也可以使用ng-show="user.showPhoto"，和ng-if会删除元素，ng-show只是隐藏元素
+                    showPhoto: true
+                };
+                $scope.isChecked = function (n) {
+                    var chk = false;
+                    for (var i = 0; i < $scope.user.hobby.length; i++) {
+                        if (n == $scope.user.hobby[i]) {
+                            chk = true;
+                            break;
+                        }
+                    }
+                    return chk;
+                };
+                $scope.confirm = function (u) {
+                    console.log(u);
+                }
+            })
+</script>
+</html>

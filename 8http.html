@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>http</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body ng-app="app">
+<div class="container" ng-controller="mysql">
+    <ul>
+        <li ng-repeat="item in users">
+            {{item.name}}
+        </li>
+    </ul>
+<div class="form-group">
+    <input ng-model="name" type="text" name="username"/>
+    <button class="btn btn-primary" ng-click="adduser()">添加</button>
+</div>
+</div>
+</body>
+<script src="angular-1.5.5/angular/angular.js"></script>
+<script>
+    //angular ng-repeat指令
+    angular.module('app', [])
+        .controller('mysql', function ($scope, $http) {
+            $http.get('./get.json')
+                .success(function (res) {
+                    console.log(res);
+                    $scope.users = res;
+                })
+                .error(function (err) {
+                    console.log(err);
+                });
+            $scope.name='';
+            $scope.adduser=function(){
+                $http.post('./post.json',{name:$scope.name})
+                    .success(function (res) {
+                        console.log(res);
+                    })
+                    .error(function (err) {
+                        console.log(err);
+                    });
+            }
+
+        })
+</script>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>AngularJS</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body style="padding: 10px;" ng-app="mvc">
+<div ng-controller="myCtrl">
+    <h1>{{msg}}</h1>
+    <input type="text" ng-model="name"/>
+    <h1 ng-bind="name"></h1>
+    <!-- ng-clock 避免出现{{}}在页面  -->
+    <h3 ng-clock class="ng-clock">{{name}}</h3>
+    <div ng-bind="'User:'+name"></div>
+    <div class="btn {{name}}">{{name}}</div>
+</div>
+<div ng-controller="NEXT">
+    <h1 ng-bind="cont"></h1>
+</div>
+</body>
+<script src="angular-1.5.5/angular/angular.js"></script>
+<script src="js/mvc.js"></script>
+</html>

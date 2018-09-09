@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>serviceApplication</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body ng-app="app">
+<div class="container" ng-controller="first">
+    <input type="text" class="form-control" ng-model="data.name"/>
+    <input type="text" class="form-control" ng-model="data.shop"/>
+    <!--data.shop赋值给buy，buy的改变并不会影响second中的pay-->
+    <input type="text" class="form-control" ng-model="buy"/>
+    <h1 ng-bind="data.shop"></h1>
+</div>
+<div class="container" ng-controller="second">
+    <input type="text" class="form-control" ng-model="data.name"/>
+    <input type="text" class="form-control" ng-model="data.shop"/>
+    <input type="text" class="form-control" ng-model="pay"/>
+    <h1 ng-bind="data.shop"></h1>
+</div>
+</body>
+<script src="js/angular.js"></script>
+<script>
+    angular.module('app', [])
+            .factory('date', function () {
+                return {
+                    name: 'I am from Factory!',
+                    shop: ['food','cloth']
+                }
+            })
+            .controller('first', function ($scope, date) {
+                $scope.data = date;
+                $scope.buy=date.shop;
+            })
+            .controller('second', function ($scope, date) {
+                $scope.data = date;
+                $scope.pay=date.shop;
+            });
+
+</script>
+</html>

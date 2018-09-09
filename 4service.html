@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>service</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body ng-app="app">
+<div class="container" ng-controller="first">
+    <h1 ng-bind="umsg"></h1>
+    <h1 ng-bind="uname"></h1>
+    <h1 ng-bind="uurl"></h1>
+    <h1 ng-bind="udate.msg"></h1>
+    <h1 ng-bind="uaddress.add()"></h1>
+</div>
+</body>
+<script src="js/angular.js"></script>
+<script>
+    //  service的四种表现模式：value、constant、factory、service、provider(高级)-->
+    angular.module('app',[])
+//        value constant用于小型的配置文件，直接传入controller中以参数形式使用
+            .value('name','Marilyn')      //value的值可以改变
+            .value('name','Lyle')
+            .constant('url','www.baidu.com')     //constant的值不可以改变
+            .constant('url','www.sina.com')
+//        factory service也需要注入到controller中使用，只是创建方式不同
+//        factory必须返回一个对象，可在对象中进行操作，而service类似于构造函数
+            .factory('date',function(){
+                return{
+                    msg:'Hahaha',
+                    say:function(){
+                     this.msg='hehehehe';
+                    }
+                }
+            })
+            .service('address',function(){
+                this.country='China';
+                this.city='xian';
+                this.add=function(){
+                    return this.country+this.city;
+                }
+            })
+            .controller('first',function($scope,name,url,date,address){
+                $scope.umsg='Hello';
+                $scope.uname=name;
+                $scope.uurl=url;
+                $scope.udate=date;
+                date.say();
+                $scope.uaddress=address;
+
+            });
+
+//    自定义service,他有四种表现形式：value、constant、factory、service ，还有一种最高级的provide
+</script>
+</html>

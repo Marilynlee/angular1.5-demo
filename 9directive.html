@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>directive</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <style>
+        .cls{
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container" ng-app="app">
+<element></element>
+    <div attr class="cls"></div>
+</div>
+</body>
+<script src="angular-1.5.5/angular/angular.js"></script>
+<script>
+   var app= angular.module('app', []);
+//   自定义标签，可复用模板
+   app.directive('element',function(){
+       return {
+           //E 表示element,默认值为A
+           restrict:'E',
+           //是否替换自定义的标签hello
+           replace:true,
+           template:'<div>Hello,angular!</div>'
+       }
+   });
+   app.directive('attr',function(){
+       return {
+           //A 表示属性
+           restrict:'A',
+           link:function(){
+               console.log("I am a directive A");
+           }
+       }
+   });
+   app.directive('cls',function(){
+       return {
+           //C 表示类名
+           restrict:'C',
+           link:function(){
+               console.log("I am a directive C");
+           }
+       }
+   });
+
+</script>
+</html>
